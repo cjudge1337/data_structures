@@ -21,6 +21,8 @@ class Link
 end
 
 class LinkedList
+  include Enumerable
+
   def initialize
     @head = Link.new
     @tail = Link.new
@@ -45,11 +47,33 @@ class LinkedList
   end
 
   def get(key)
+    return nil if empty?
 
+    current_node = @head.next
+    until current_node == @tail
+      if current_node.key == key
+        return current_node.val
+      else
+        current_node = current_node.next
+      end
+    end
+
+    nil
   end
 
   def include?(key)
+    return nil if empty?
 
+    current_node = @head.next
+    until current_node == @tail
+      if current_node.key == key
+        return true
+      else
+        current_node = current_node.next
+      end
+    end
+
+    false
   end
 
   def append(key, val)
@@ -87,14 +111,43 @@ class LinkedList
   end
 
   def remove(key)
+    return nil if empty?
 
+    current_node = @head.next
+    until current_node == @tail
+      if current_node.key == key
+        prev_node = current_node.prev
+        next_node = current_node.next
+
+        prev_node.next = next_node
+        next_node.prev = prev_node
+        current_node.prev = nil
+        current_node.next = nil
+        break
+      else
+        current_node = current_node.next
+      end
+    end
+
+    nil
   end
 
-  def each
+  def each(&prc)
+    return nil if empty?
+
+    return nil if empty?
+
+    current_node = @head.next
+    until current_node == @tail
+      yield current_node
+      current_node = current_node.next
+    end
+
+    self
   end
 
   # uncomment when you have `each` working and `Enumerable` included
-  # def to_s
-  #   inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
-  # end
+  def to_s
+    inject([]) { |acc, link| acc << "[#{link.key}, #{link.val}]" }.join(", ")
+  end
 end
