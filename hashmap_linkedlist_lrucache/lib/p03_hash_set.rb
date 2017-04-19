@@ -25,7 +25,6 @@ class HashSet
   end
 
   def remove(key)
-    # debugger
     hash_num = key.hash
     return if include?(key) == false
     self[hash_num].delete(hash_num)
