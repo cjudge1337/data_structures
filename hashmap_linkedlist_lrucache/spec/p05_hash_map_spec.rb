@@ -98,7 +98,7 @@ describe HashMap do
     before do
       allow(hash).to receive(:resize!).and_call_original
     end
-
+    
     it "should call #resize! when enough items are inserted" do
       expect(hash).to receive(:resize!).exactly(1).times
       7.times { |i| hash[i] = i + 1 }
