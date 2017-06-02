@@ -1,5 +1,7 @@
 class BinaryMinHeap
   def initialize(&prc)
+    @store = []
+    @prc = prc
   end
 
   def count
@@ -9,6 +11,7 @@ class BinaryMinHeap
   end
 
   def peek
+    @store[0]
   end
 
   def push(val)
@@ -19,9 +22,15 @@ class BinaryMinHeap
 
   public
   def self.child_indices(len, parent_index)
+    result = []
+    result << (parent_index * 2) + 1 unless ((parent_index * 2) + 1) > len - 1
+    result << (parent_index * 2) + 2 unless ((parent_index * 2) + 2) > len - 1
+    result
   end
 
   def self.parent_index(child_index)
+    raise('root has no parent') if child_index.zero?
+    (child_index - 1) / 2
   end
 
   def self.heapify_down(array, parent_idx, len = array.length, &prc)
