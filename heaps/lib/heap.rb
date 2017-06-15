@@ -1,3 +1,5 @@
+require 'byebug'
+
 class BinaryMinHeap
   def initialize(&prc)
     @store = []
@@ -5,9 +7,14 @@ class BinaryMinHeap
   end
 
   def count
+    store.length
   end
 
   def extract
+    return_val = store[0]
+    store[0] = store.pop
+    BinaryMinHeap.heapify_down(store, 0, count)
+    return_val
   end
 
   def peek
@@ -15,6 +22,8 @@ class BinaryMinHeap
   end
 
   def push(val)
+    store << val
+    BinaryMinHeap.heapify_up(store, count - 1, count)
   end
 
   protected
